@@ -1,0 +1,169 @@
+<?xml version="1.0" encoding="utf-8"?>
+<search>
+  <entry>
+    <title>代码演示</title>
+    <url>/2025/11/24/test/</url>
+    <content><![CDATA[<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span><span class="string">&lt;iostream&gt;</span></span></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> std;</span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">main</span><span class="params">()</span></span>&#123;</span><br><span class="line">    cout &lt;&lt; <span class="string">&quot;hello world&quot;</span>;</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>]]></content>
+  </entry>
+  <entry>
+    <title>吾爱破解安卓逆向1-3课笔记</title>
+    <url>/2025/11/24/%E5%90%BE%E7%88%B1%E7%A0%B4%E8%A7%A3%E5%AE%89%E5%8D%93%E9%80%86%E5%90%911-3%E8%AF%BE%E7%AC%94%E8%AE%B0/</url>
+    <content><![CDATA[<h1 id="吾爱破解安卓逆向1-3课笔记"><a href="#吾爱破解安卓逆向1-3课笔记" class="headerlink" title="吾爱破解安卓逆向1-3课笔记"></a>吾爱破解安卓逆向1-3课笔记</h1><h2 id="为什么要学安卓逆向？"><a href="#为什么要学安卓逆向？" class="headerlink" title="为什么要学安卓逆向？"></a>为什么要学安卓逆向？</h2><ul>
+<li>修改臃肿app的界面，使其更清爽</li>
+<li>去更新，去广告，等等</li>
+<li>为自己常用但没有合适插件的app开发插件</li>
+</ul>
+<div class="note success flat"><p>逆向并不是为了破坏，而是为了“更好地理解与自定义”。</p>
+</div>
+
+<h2 id="逆向流程图"><a href="#逆向流程图" class="headerlink" title="逆向流程图"></a>逆向流程图</h2><p><img src="https://s2.loli.net/2025/11/24/fhmXeJsuv8qxN2i.webp" alt="逆向流程图.webp"></p>
+<h2 id="第一课：模拟器环境搭建"><a href="#第一课：模拟器环境搭建" class="headerlink" title="第一课：模拟器环境搭建"></a>第一课：模拟器环境搭建</h2><p>参考课程视频即可完成：<a href="https://www.bilibili.com/video/BV1wT411N7sV/?vd_source=fbb2cd8d3cfe14f412e8995061baa442">点此跳转</a></p>
+<h2 id="第二课：初识APK文件结构、双开、汉化、基础修改"><a href="#第二课：初识APK文件结构、双开、汉化、基础修改" class="headerlink" title="第二课：初识APK文件结构、双开、汉化、基础修改"></a>第二课：初识APK文件结构、双开、汉化、基础修改</h2><h3 id="1-apk结构"><a href="#1-apk结构" class="headerlink" title="1.apk结构"></a>1.apk结构</h3><!-- tab：总览 -->
+<h3 id="总览"><a href="#总览" class="headerlink" title="总览"></a>总览</h3><p>APK 实际上就是 zip 包，其结构通常如下：</p>
+<table>
+<thead>
+<tr>
+<th>文件&#x2F;目录</th>
+<th>功能</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>assets&#x2F;</strong></td>
+<td>静态资源（音视频、配置等）</td>
+</tr>
+<tr>
+<td><strong>lib&#x2F;</strong></td>
+<td>C&#x2F;C++ 编译的 so 动态库</td>
+</tr>
+<tr>
+<td><strong>META-INF&#x2F;</strong></td>
+<td>签名文件，用于验证 APK 完整性</td>
+</tr>
+<tr>
+<td><strong>res&#x2F;</strong></td>
+<td>图片、字符串、布局等资源</td>
+</tr>
+<tr>
+<td><strong>AndroidManifest.xml</strong></td>
+<td>应用清单（权限、入口、组件）</td>
+</tr>
+<tr>
+<td><strong>classes.dex</strong></td>
+<td>Java 编译后的字节码（主逻辑）</td>
+</tr>
+<tr>
+<td><strong>resources.arsc</strong></td>
+<td>编译后的资源映射表</td>
+</tr>
+</tbody></table>
+<h3 id="2-应用双开及其原理"><a href="#2-应用双开及其原理" class="headerlink" title="2.应用双开及其原理"></a>2.应用双开及其原理</h3><table>
+<thead>
+<tr>
+<th>原理</th>
+<th>解释</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>修改包名</td>
+<td>让手机系统认为这是2个APP，这样的话就能生成2个数据存储路径，此时的多开就等于你打开了两个互不干扰的APP</td>
+</tr>
+<tr>
+<td>修改Framework</td>
+<td>对于有系统修改权限的厂商，可以修改Framework来实现双开的目的，例如：小米自带多开</td>
+</tr>
+<tr>
+<td>通过虚拟化技术实现</td>
+<td>虚拟Framework层、虚拟文件系统、模拟Android对组件的管理、虚拟应用进程管理 等一整套虚拟技术，将APK复制一份到虚拟空间中运行，例如：平行空间</td>
+</tr>
+<tr>
+<td>以插件机制运行</td>
+<td>利用反射替换，动态代理，hook了系统的大部分与system—server进程通讯的函数，以此作为“欺上瞒下”的目的，欺骗系统“以为”只有一个apk在运行，瞒过插件让其“认为”自己已经安装。例如：VirtualApp</td>
+</tr>
+</tbody></table>
+<p>本节课主要使用原理1(修改包名)</p>
+<h3 id="3-汉化apk"><a href="#3-汉化apk" class="headerlink" title="3.汉化apk"></a>3.汉化apk</h3><p>汉化，即使用专门的工具对非母语版的软件资源进行读取，翻译，修改，会写等一系列操作，使软件的菜单、对话框等用户界面显示为中文而保持功能不变。</p>
+<p>基本上都在arsc中，将字符串逐一汉化，然后润色。<br>少量没汉化的字符串可以定位后逐一汉化。</p>
+<h3 id="4-初识AndroidMainfest-xml"><a href="#4-初识AndroidMainfest-xml" class="headerlink" title="4.初识AndroidMainfest.xml"></a>4.初识AndroidMainfest.xml</h3><p>AndroidMainfest.xml文件是整个应用程序的信息描述文件，定义了各种组件信息(如Activity，Service等)。</p>
+<p>每个应用必须包含且不能改名。它描述了package中的暴露组件，他们各自的实现类，各种能被处理的数据和启动位置。</p>
+<table>
+<thead>
+<tr>
+<th>属性</th>
+<th>定义</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>versionCode</td>
+<td>版本号，主要用来更新，例如:12</td>
+</tr>
+<tr>
+<td>versionName</td>
+<td>版本名，给用户看的，例如:1.2</td>
+</tr>
+<tr>
+<td>package</td>
+<td>包名，例如：com.zj.52pj.demo</td>
+</tr>
+<tr>
+<td>uses-permission android:name&#x3D;””</td>
+<td>应用权限，例如：android.permission.INTERNET 代表网络权限</td>
+</tr>
+<tr>
+<td>android:label&#x3D;”@string&#x2F;app_name”</td>
+<td>应用名称</td>
+</tr>
+<tr>
+<td>android:icon&#x3D;”@mipmap&#x2F;ic_launcher”</td>
+<td>应用图标路径</td>
+</tr>
+<tr>
+<td>android:debuggable&#x3D;”true”</td>
+<td>应用是否开启debug权限</td>
+</tr>
+</tbody></table>
+<p>这里给出一个示例xml</p>
+<figure class="highlight xml"><table><tr><td class="code"><pre><span class="line"><span class="meta">&lt;?xml version=<span class="string">&quot;1.0&quot;</span> encoding=<span class="string">&quot;utf-8&quot;</span>?&gt;</span></span><br><span class="line"><span class="comment">&lt;!--版本号，版本名，包名--&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">manifest</span> <span class="attr">xmlns:android</span>=<span class="string">&quot;http://schemas.android.com/apk/res/android&quot;</span></span></span><br><span class="line"><span class="tag">    <span class="attr">android:versionCode</span>=<span class="string">&quot;1&quot;</span></span></span><br><span class="line"><span class="tag">    <span class="attr">android:versionName</span>=<span class="string">&quot;1.0&quot;</span></span></span><br><span class="line"><span class="tag">    <span class="attr">android:compileSdkVersion</span>=<span class="string">&quot;32&quot;</span></span></span><br><span class="line"><span class="tag">    <span class="attr">android:compileSdkVersionCodename</span>=<span class="string">&quot;12&quot;</span></span></span><br><span class="line"><span class="tag">    <span class="attr">package</span>=<span class="string">&quot;com.zj.wuaipojie&quot;</span></span></span><br><span class="line"><span class="tag">    <span class="attr">platformBuildVersionCode</span>=<span class="string">&quot;32&quot;</span></span></span><br><span class="line"><span class="tag">    <span class="attr">platformBuildVersionName</span>=<span class="string">&quot;12&quot;</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">uses-sdk</span></span></span><br><span class="line"><span class="tag">        <span class="attr">android:minSdkVersion</span>=<span class="string">&quot;27&quot;</span></span></span><br><span class="line"><span class="tag">        <span class="attr">android:targetSdkVersion</span>=<span class="string">&quot;32&quot;</span>/&gt;</span></span><br><span class="line">    <span class="comment">&lt;!-- 权限请求 --&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">uses-permission</span></span></span><br><span class="line"><span class="tag">        <span class="attr">android:name</span>=<span class="string">&quot;android.permission.INTERNET&quot;</span>/&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">uses-permission</span></span></span><br><span class="line"><span class="tag">        <span class="attr">android:name</span>=<span class="string">&quot;android.permission.WRITE_EXTERNAL_STORAGE&quot;</span>/&gt;</span></span><br><span class="line">    <span class="comment">&lt;!-- 应用资源 --&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">application</span></span></span><br><span class="line"><span class="tag">        <span class="attr">android:theme</span>=<span class="string">&quot;@7F1101D3&quot;</span></span></span><br><span class="line"><span class="tag">        <span class="attr">android:label</span>=<span class="string">&quot;@7F10001B&quot;</span></span></span><br><span class="line"><span class="tag">        <span class="attr">android:icon</span>=<span class="string">&quot;@7F0D000F&quot;</span></span></span><br><span class="line"><span class="tag">        <span class="attr">android:allowBackup</span>=<span class="string">&quot;true&quot;</span></span></span><br><span class="line"><span class="tag">        <span class="attr">android:supportsRtl</span>=<span class="string">&quot;true&quot;</span></span></span><br><span class="line"><span class="tag">        <span class="attr">android:extractNativeLibs</span>=<span class="string">&quot;false&quot;</span></span></span><br><span class="line"><span class="tag">        <span class="attr">android:fullBackupContent</span>=<span class="string">&quot;@7F130000&quot;</span></span></span><br><span class="line"><span class="tag">        <span class="attr">android:networkSecurityConfig</span>=<span class="string">&quot;@7F130002&quot;</span></span></span><br><span class="line"><span class="tag">        <span class="attr">android:appComponentFactory</span>=<span class="string">&quot;androidx.core.app.CoreComponentFactory&quot;</span></span></span><br><span class="line"><span class="tag">        <span class="attr">android:dataExtractionRules</span>=<span class="string">&quot;@7F130001&quot;</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">activity</span></span></span><br><span class="line"><span class="tag">            <span class="attr">android:name</span>=<span class="string">&quot;com.zj.wuaipojie.ui.ChallengeSixth&quot;</span></span></span><br><span class="line"><span class="tag">            <span class="attr">android:exported</span>=<span class="string">&quot;false&quot;</span>/&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">activity</span></span></span><br><span class="line"><span class="tag">            <span class="attr">android:name</span>=<span class="string">&quot;com.zj.wuaipojie.ui.ChallengeFifth&quot;</span></span></span><br><span class="line"><span class="tag">            <span class="attr">android:exported</span>=<span class="string">&quot;true&quot;</span>/&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">activity</span></span></span><br><span class="line"><span class="tag">            <span class="attr">android:name</span>=<span class="string">&quot;com.zj.wuaipojie.ui.ChallengeFourth&quot;</span></span></span><br><span class="line"><span class="tag">            <span class="attr">android:exported</span>=<span class="string">&quot;true&quot;</span>/&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">activity</span></span></span><br><span class="line"><span class="tag">            <span class="attr">android:name</span>=<span class="string">&quot;com.zj.wuaipojie.ui.ChallengeThird&quot;</span></span></span><br><span class="line"><span class="tag">            <span class="attr">android:exported</span>=<span class="string">&quot;false&quot;</span>/&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">activity</span></span></span><br><span class="line"><span class="tag">            <span class="attr">android:name</span>=<span class="string">&quot;com.zj.wuaipojie.ui.ChallengeSecond&quot;</span></span></span><br><span class="line"><span class="tag">            <span class="attr">android:exported</span>=<span class="string">&quot;false&quot;</span>/&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">activity</span></span></span><br><span class="line"><span class="tag">            <span class="attr">android:name</span>=<span class="string">&quot;com.zj.wuaipojie.ui.AdActivity&quot;</span>/&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">activity</span></span></span><br><span class="line"><span class="tag">            <span class="attr">android:label</span>=<span class="string">&quot;@7F10001B&quot;</span></span></span><br><span class="line"><span class="tag">            <span class="attr">android:name</span>=<span class="string">&quot;com.zj.wuaipojie.ui.MainActivity&quot;</span></span></span><br><span class="line"><span class="tag">            <span class="attr">android:exported</span>=<span class="string">&quot;true&quot;</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">intent-filter</span>&gt;</span></span><br><span class="line">                <span class="tag">&lt;<span class="name">action</span></span></span><br><span class="line"><span class="tag">                    <span class="attr">android:name</span>=<span class="string">&quot;android.intent.action.MAIN&quot;</span>/&gt;</span></span><br><span class="line">                <span class="tag">&lt;<span class="name">category</span></span></span><br><span class="line"><span class="tag">                    <span class="attr">android:name</span>=<span class="string">&quot;android.intent.category.LAUNCHER&quot;</span>/&gt;</span></span><br><span class="line">            <span class="tag">&lt;/<span class="name">intent-filter</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;/<span class="name">activity</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">activity</span></span></span><br><span class="line"><span class="tag">            <span class="attr">android:name</span>=<span class="string">&quot;com.zj.wuaipojie.ui.ChallengeFirst&quot;</span>/&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">application</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">manifest</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="5-作业"><a href="#5-作业" class="headerlink" title="5.作业"></a>5.作业</h3><p>使用开发者助手可以简单的定位图片资源，然后查找图片位置，进行替换。</p>
+<h2 id="第三课：初识smali，vip终结者，一键三连"><a href="#第三课：初识smali，vip终结者，一键三连" class="headerlink" title="第三课：初识smali，vip终结者，一键三连"></a>第三课：初识smali，vip终结者，一键三连</h2><h3 id="1-什么是JVM、Dalvik、ART"><a href="#1-什么是JVM、Dalvik、ART" class="headerlink" title="1.什么是JVM、Dalvik、ART"></a>1.什么是JVM、Dalvik、ART</h3><p>JVM是JAVA虚拟机，运行JAVA字节码程序</p>
+<p>Dalvik是Google专门为Android设计的一个虚拟机，Dalvik有专属的文件执行格式dex(Dalvik executable)</p>
+<p>Art(Android Runtime)相当于Dalvik的升级版，本质与Dalvik无异</p>
+<h3 id="2-smali及其语法"><a href="#2-smali及其语法" class="headerlink" title="2.smali及其语法"></a>2.smali及其语法</h3><p>smali是Dalvik的寄存器语言，smali代码是dex反编译而来的。</p>
+<p>由于smali更贴近汇编语言，语法内容很多，这里不赘述，建议通过实战来总结经验。可以下载教程给出的smali语法查询来辅助学习。</p>
+<h3 id="3-寄存器"><a href="#3-寄存器" class="headerlink" title="3.寄存器"></a>3.寄存器</h3><p>在smali里的所有操作都必须经过寄存器来进行:本地寄存器用v开头数字结尾的符号来表示，如v0、 v1、v2。<br>参数寄存器则使用p开头数字结尾的符号来表示，如p0、p1、p2。</p>
+<p>特别注意的是，<strong>p0不一定是函数中的第一个参数</strong>：</p>
+<ul>
+<li>在非static函数中，p0代指“this”，p1表示函数的第一个参数，p2代表函数中的第二个参数。</li>
+<li>在static函数中p0才对应第一个参数(因为Java的static方法中没有this方法)</li>
+</ul>
+<h3 id="4-逆向关键"><a href="#4-逆向关键" class="headerlink" title="4.逆向关键"></a>4.逆向关键</h3><p><img src="https://s2.loli.net/2025/11/25/7syF9jED1JOWU6g.webp" alt="逆向关键点.webp"></p>
+<h3 id="5-具体过程"><a href="#5-具体过程" class="headerlink" title="5.具体过程"></a>5.具体过程</h3><p>打开关卡后，要求是成功一键三连，尝试后发现有两个条件：1.硬币达到十个 2.需要大会员。</p>
+<p>注意到关键词“大会员” ， 打开jadx，搜索“大会员”，找到两个位置（这里如果没有搜索到，可能是因为没有自动将Unicode编码转换为汉语，先将“大会员”转译为Unicode编码即可），选择其中一个打开，找到三连的方法：</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="type">boolean</span> m458onCreate$lambda2(Ref.IntRef intRef, ChallengeSecond challengeSecond, ImageView imageView, ImageView imageView2, ImageView imageView3, View view) &#123;</span><br><span class="line">    <span class="keyword">if</span> (intRef.element &lt; <span class="number">10</span>) &#123;</span><br><span class="line">        Toast.makeText(challengeSecond, <span class="string">&quot;请先获取10个硬币哦&quot;</span>, <span class="number">1</span>).show();</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">if</span> (challengeSecond.isvip()) &#123;</span><br><span class="line">        <span class="type">ChallengeSecond</span> <span class="variable">challengeSecond2</span> <span class="operator">=</span> challengeSecond;</span><br><span class="line">        Toast.makeText(challengeSecond2, <span class="string">&quot;当前已经是大会员了哦！&quot;</span>, <span class="number">1</span>).show();</span><br><span class="line">        imageView.setImageResource(R.mipmap.zan_active);</span><br><span class="line">        imageView2.setImageResource(R.mipmap.coin_active);</span><br><span class="line">        imageView3.setImageResource(R.mipmap.collect_active);</span><br><span class="line">        SPUtils.INSTANCE.saveInt(challengeSecond2, <span class="string">&quot;level&quot;</span>, <span class="number">2</span>);</span><br><span class="line">    &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">        Toast.makeText(challengeSecond, <span class="string">&quot;请先充值大会员哦！&quot;</span>, <span class="number">1</span>).show();</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> <span class="literal">true</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>不难看出，这个方法通过判断<strong>硬币数量</strong>和<strong>是否是会员</strong>这两个条件来决定能否三连，和关卡二的测试结果吻合，后续应该着重修改此处。</p>
+<p>转为smali代码，找到Create$lambda-2方法，有三种方法修改：</p>
+<ol>
+<li>修改寄存器的值</li>
+<li>修改判断逻辑</li>
+<li>强制跳转</li>
+</ol>
+<h4 id="1-修改寄存器的值"><a href="#1-修改寄存器的值" class="headerlink" title="1.修改寄存器的值"></a>1.修改寄存器的值</h4><p>打开mt管理器，反编译class.dex，查找并定位方法名<code>onCreate$lambda-2</code>，这是第二关，所以选择second进入。</p>
+<p>注意到一个赋值语句<code>const/16 v0, 0xa</code>，0xa即十六进制的10，在之前的测试中有“十个硬币”这个检测要求，这里直接把要求改为1，一枚硬币即可三连：<code>const/16 v0, 0xa</code>-&gt;<code>const/16 v0, 0x1</code></p>
+<p>来到cond_15，注意到<code>isvip()Z</code>，判断这里是判断是否为会员的部分。往下阅读，注意到判断语句<code>if-eqz p0, :cond_43</code>，这里是判断是否为0，是的话则跳转到cond_43。</p>
+<p>阅读cond_43后发现，这里是提示充值vip的地方，回到判断语句，我们的目标是阻止跳转，直接将语句注释即可。</p>
+<h4 id="2-修改跳转逻辑"><a href="#2-修改跳转逻辑" class="headerlink" title="2.修改跳转逻辑"></a>2.修改跳转逻辑</h4><p>同样定位到函数，这里我们将<code>if-ge</code>改为<code>if-le</code> , 在硬币少于10时即可通过。</p>
+<p>将cond_15处的<code>if-eqz</code>改为<code>if-nez</code>，即可对判断逻辑取反，通过会员检查</p>
+<h4 id="3-强制跳转"><a href="#3-强制跳转" class="headerlink" title="3.强制跳转"></a>3.强制跳转</h4><p>同样定位到函数，我们可以运用goto直接跳过所有判断，跳到目标位置。<br>将<code>if-ge</code>语句改为goto，跳转后再将<code>if-eqz</code>注释即可。</p>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>这三节课主要学习了安卓apk的构成，如何初步破解简单的apk，以及对smali代码的基础学习。</p>
+<p>个人认为其中最难的部分在于找到逆向的关键点和smali代码的阅读，这方面需要多加练习。</p>
+<h2 id="参考文献"><a href="#参考文献" class="headerlink" title="参考文献"></a>参考文献</h2><p><a href="https://github.com/ZJ595/AndroidReverse">吾爱破解安卓逆向</a></p>
+]]></content>
+      <categories>
+        <category>安卓逆向</category>
+      </categories>
+      <tags>
+        <tag>安卓</tag>
+        <tag>逆向</tag>
+      </tags>
+  </entry>
+</search>
