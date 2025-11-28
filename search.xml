@@ -166,4 +166,136 @@
     <url>/posts/be82d226.html</url>
     <content><![CDATA[<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span><span class="string">&lt;iostream&gt;</span></span></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> std;</span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">main</span><span class="params">()</span></span>&#123;</span><br><span class="line">    cout &lt;&lt; <span class="string">&quot;hello world&quot;</span>;</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>]]></content>
   </entry>
+  <entry>
+    <title>吾爱破解安卓逆向第四课笔记</title>
+    <url>/posts/c832ab7c.html</url>
+    <content><![CDATA[<h1 id="吾爱破解安卓逆向第四课笔记"><a href="#吾爱破解安卓逆向第四课笔记" class="headerlink" title="吾爱破解安卓逆向第四课笔记"></a>吾爱破解安卓逆向第四课笔记</h1><p> <em>“在我看来，困惑是学习过程的第一阶段，这说明固有知识的局限开始被打破了。你要直面新的信息，这些新的信息会挑战你现有的观念和行为模式。由此产生的焦虑是让你改变的动力，很可能也会开启你的创造力。”————罗伯特·戴博德</em></p>
+<h2 id="1-广告类型"><a href="#1-广告类型" class="headerlink" title="1. 广告类型"></a>1. 广告类型</h2><ul>
+<li>启动弹窗</li>
+<li>更新广告</li>
+<li>横幅广告</li>
+</ul>
+<h2 id="2-安卓四大组件"><a href="#2-安卓四大组件" class="headerlink" title="2. 安卓四大组件"></a>2. 安卓四大组件</h2><table>
+<thead>
+<tr>
+<th>组件</th>
+<th>描述</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Activity(活动)</td>
+<td>在应用中的一个Activity可以用来表示一个界面，意思可以理解为“活动”，即一个活动开始，代表 Activity组件启动，活动结束，代表一个Activity的生命周期结束。一个Android应用必须通过Activity来运行和启动，Activity的生命周期交给系统统一管理。</td>
+</tr>
+<tr>
+<td>Service(服务)</td>
+<td>Service它可以在后台执行长时间运行操作而没有用户界面的应用组件，不依赖任何用户界面，例如后台播放音乐，后台下载文件等。</td>
+</tr>
+<tr>
+<td>Broadcast Receiver(广播接收器)</td>
+<td>一个用于接收广播信息，并做出对应处理的组件。比如我们常见的系统广播：通知时区改变、电量低、用户改变了语言选项等。</td>
+</tr>
+<tr>
+<td>Content Provider(内容提供者)</td>
+<td>作为应用程序之间唯一的共享数据的途径，Content Provider主要的功能就是存储并检索数据以及向其他应用程序提供访问数据的接口。Android内置的许多数据都是使用Content Provider形式，供开发者调用的（如视频，音频，图片，通讯录等）</td>
+</tr>
+</tbody></table>
+<h2 id="2-Activity生命周期"><a href="#2-Activity生命周期" class="headerlink" title="2. Activity生命周期"></a>2. Activity生命周期</h2><table>
+<thead>
+<tr>
+<th>函数名称</th>
+<th>描述</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>onCreate()</td>
+<td>一个Activity启动后第一个被调用的函数，常用来在此方法中进行Activity的一些初始化操作。例如创建View，绑定数据，注册监听，加载参数等。</td>
+</tr>
+<tr>
+<td>onStart()</td>
+<td>当Activity显示在屏幕上时，此方法被调用但此时还无法进行与用户的交互操作。</td>
+</tr>
+<tr>
+<td>onResume()</td>
+<td>这个方法在onStart()之后调用，也就是在Activity准备好与用户进行交互的时候调用，此时的Activity一定位于Activity栈顶，处于运行状态。</td>
+</tr>
+<tr>
+<td>onPause()</td>
+<td>这个方法是在系统准备去启动或者恢复另外一个Activity的时候调用，通常在这个方法中执行一些释放资源的方法，以及保存一些关键数据。</td>
+</tr>
+<tr>
+<td>onStop()</td>
+<td>这个方法是在Activity完全不可见的时候调用的。</td>
+</tr>
+<tr>
+<td>onDestroy()</td>
+<td>这个方法在Activity销毁之前调用，之后Activity的状态为销毁状态。</td>
+</tr>
+<tr>
+<td>onRestart()</td>
+<td>当Activity从停止stop状态恢进入start状态时调用状态。</td>
+</tr>
+</tbody></table>
+<p><img src="https://s2.loli.net/2025/11/29/4s6hqV8eI2PTl1c.webp" alt="d810cf812e87dd8cbbb663cf9b1247a4.webp"></p>
+<h2 id="3-加载延迟广告的修改方法"><a href="#3-加载延迟广告的修改方法" class="headerlink" title="3. 加载延迟广告的修改方法"></a>3. 加载延迟广告的修改方法</h2><p>对于加载延迟广告，我们有三种办法阻止：</p>
+<ol>
+<li>修改加载时间</li>
+<li>Activity切换定位</li>
+<li>修改Intent的Activity的类名</li>
+</ol>
+<h3 id="I-修改加载时间"><a href="#I-修改加载时间" class="headerlink" title="I. 修改加载时间"></a>I. 修改加载时间</h3><p>使用mt管理器，开启Activity记录，打开第三关，进入关卡后切换回mt管理器，停止记录，可以看到此时抓到了一个<code>AdActivity</code>活动。</p>
+<p>复制这个活动，提取安装包，反编译class.dex，以类名搜索这个活动，即可得到smali代码的位置，反编译后java代码如下：</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">package</span> com.zj.wuaipojie.ui;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> android.content.Context;</span><br><span class="line"><span class="keyword">import</span> android.content.Intent;</span><br><span class="line"><span class="keyword">import</span> android.os.Bundle;</span><br><span class="line"><span class="keyword">import</span> android.os.Handler;</span><br><span class="line"><span class="keyword">import</span> androidx.appcompat.app.AppCompatActivity;</span><br><span class="line"><span class="keyword">import</span> com.zj.wuaipojie.ui.AdActivity$.ExternalSyntheticLambda0;</span><br><span class="line"><span class="keyword">import</span> kotlin.Metadata;</span><br><span class="line"></span><br><span class="line"><span class="meta">@Metadata(d1 = &#123;&quot;\u0000\u001a\n\u0002\u0018\u0002\n\u0002\u0018\u0002\n\u0002\b\u0002\n\u0002\u0010\u0002\n\u0002\b\u0003\n\u0002\u0018\u0002\n\u0000\u0018\u00002\u00020\u0001B\u0005¢\u0006\u0002\u0010\u0002J\b\u0010\u0003\u001a\u00020\u0004H\u0002J\b\u0010\u0005\u001a\u00020\u0004H\u0002J\u0012\u0010\u0006\u001a\u00020\u00042\b\u0010\u0007\u001a\u0004\u0018\u00010\bH\u0014¨\u0006\t&quot;&#125;, d2 = &#123;&quot;Lcom/zj/wuaipojie/ui/AdActivity;&quot;, &quot;Landroidx/appcompat/app/AppCompatActivity;&quot;, &quot;()V&quot;, &quot;jump&quot;, &quot;&quot;, &quot;loadAd&quot;, &quot;onCreate&quot;, &quot;savedInstanceState&quot;, &quot;Landroid/os/Bundle;&quot;, &quot;app_release&quot;&#125;, k = 1, mv = &#123;1, 7, 1&#125;, xi = 48)</span></span><br><span class="line"><span class="comment">/* compiled from: AdActivity.kt */</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">final</span> <span class="keyword">class</span> <span class="title class_">AdActivity</span> <span class="keyword">extends</span> <span class="title class_">AppCompatActivity</span> &#123;</span><br><span class="line">    <span class="keyword">protected</span> <span class="keyword">void</span> <span class="title function_">onCreate</span><span class="params">(Bundle bundle)</span> &#123;</span><br><span class="line">        <span class="built_in">super</span>.onCreate(bundle);</span><br><span class="line">        setContentView(<span class="number">2131427363</span>);</span><br><span class="line">        loadAd();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">final</span> <span class="keyword">void</span> <span class="title function_">jump</span><span class="params">()</span> &#123;</span><br><span class="line">        startActivity(<span class="keyword">new</span> <span class="title class_">Intent</span>((Context) <span class="built_in">this</span>, ChallengeThird.class));</span><br><span class="line">        finish();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">final</span> <span class="keyword">void</span> <span class="title function_">loadAd</span><span class="params">()</span> &#123;</span><br><span class="line">        <span class="keyword">new</span> <span class="title class_">Handler</span>().postDelayed(<span class="keyword">new</span> <span class="title class_">ExternalSyntheticLambda0</span>(<span class="built_in">this</span>), <span class="number">3000</span>);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/* renamed from: loadAd$lambda-0 */</span></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="keyword">void</span> m0loadAd$lambda-<span class="number">0</span>(AdActivity adActivity) &#123;</span><br><span class="line">        adActivity.jump();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>注意到关键方法<code>loadAD()</code>，这是一个典型的加载延迟广告的代码，其中3000意味着它会展示3000ms(即3s)，此时我们可以用第一种办法，<strong>将展示时间改为0ms</strong></p>
+<p>回到smali代码，将其中的<code>const-wide/16 v2, 0xbb8</code>改为<code>const-wide/16 v2, 0x0</code>即可。</p>
+<p>需要注意的是，这种方法<strong>并没有阻止广告的加载</strong>，但是将其展示时间缩短到了无法感知的长短。</p>
+<h3 id="II-Activity切换定位"><a href="#II-Activity切换定位" class="headerlink" title="II. Activity切换定位"></a>II. Activity切换定位</h3><p>我们可以回到AndroidManifest.xml文件，寻找到代码行：</p>
+<figure class="highlight xml"><table><tr><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">activity</span></span></span><br><span class="line"><span class="tag">    <span class="attr">android:label</span>=<span class="string">&quot;@7F10001B&quot;</span></span></span><br><span class="line"><span class="tag">    <span class="attr">android:name</span>=<span class="string">&quot;com.zj.wuaipojie.ui.MainActivity&quot;</span></span></span><br><span class="line"><span class="tag">    <span class="attr">android:exported</span>=<span class="string">&quot;true&quot;</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">intent-filter</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">action</span></span></span><br><span class="line"><span class="tag">            <span class="attr">android:name</span>=<span class="string">&quot;android.intent.action.MAIN&quot;</span>/&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">category</span></span></span><br><span class="line"><span class="tag">            <span class="attr">android:name</span>=<span class="string">&quot;android.intent.category.LAUNCHER&quot;</span>/&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">intent-filter</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">activity</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<p>形似这种的xml代码，即为最高优先级的Activity，一般是主界面的启动。我们可以将其中的<code>android:name=&quot;android.intent.action.MAIN&quot;</code>替换为我们需要的Activity，即<code>com.zj.wuaipojie.ui.ChallengeThird</code>。</p>
+<p>替换后，即可完全跳过<code>loadAD()</code>的调用。</p>
+<p>但这种方法存在显著的局限性：<strong>最好用于加载于主界面之前的广告</strong>，否则会导致每次打开都强制跳转到子界面，影响使用。</p>
+<h3 id="III-修改Intent的Activity的类名"><a href="#III-修改Intent的Activity的类名" class="headerlink" title="III. 修改Intent的Activity的类名"></a>III. 修改Intent的Activity的类名</h3><p>由于方法二的局限性，我们需要更准确的定位到<strong>是谁调用了AdActivity</strong>，定位后进行修改。</p>
+<p>在mt管理器中，定位到Activity后，长按复制其smali代码，然后对代码进行搜索。</p>
+<p>我们需要知道的是谁调用了AdActivity，所以要排除其本身。注意到下面的<code>ChallengeAdapter</code>类，进入查看。</p>
+<figure class="highlight smali"><table><tr><td class="code"><pre><span class="line">const-class v1, <span class="class">Lcom/zj/wuaipojie/ui/AdActivity;</span></span><br><span class="line"><span class="built_in"></span></span><br><span class="line"><span class="built_in">invoke-virtual </span>&#123;p0, v0, v1&#125;, <span class="class">Landroid/content/Intent;</span>-&gt;setClass(<span class="class">Landroid/content/Context;</span><span class="class">Ljava/lang/Class;</span>)<span class="class">Landroid/content/Intent;</span></span><br></pre></td></tr></table></figure>
+
+<p>这里加载了AdActivity类后，在后面执行了这个类。所以这个类具体就是在这里被触发的。我们可以对此处进行修改。</p>
+<p>我们可以修改这个被加载的类具体是什么。将AdActivity改为<code>Lcom/zj/wuaipojie/ui/ChallengeThird</code>。</p>
+<p>这样，我们便完全跳过了广告的加载。</p>
+<h2 id="4-弹窗类型-更新或者广告"><a href="#4-弹窗类型-更新或者广告" class="headerlink" title="4. 弹窗类型(更新或者广告)"></a>4. 弹窗类型(更新或者广告)</h2><p>继续往后，发现还有三个弹窗，分别是一个更新和两个广告。</p>
+<h3 id="更新弹窗"><a href="#更新弹窗" class="headerlink" title="更新弹窗"></a>更新弹窗</h3><p>通常，我们可以通过修改版本号来避免更新弹窗。</p>
+<p>打开xml文件，将<code>versionCode</code> 改为更高的数字，比如100即可。</p>
+<h3 id="弹窗广告"><a href="#弹窗广告" class="headerlink" title="弹窗广告"></a>弹窗广告</h3><p>通常可以通过一下方法解决：</p>
+<ol>
+<li>Hook弹窗(推荐算法助手开启弹窗定位)</li>
+<li>修改dex弹窗代码 </li>
+<li>抓包修改响应体(也可以路由器拦截)</li>
+</ol>
+<h4 id="1-hook弹窗"><a href="#1-hook弹窗" class="headerlink" title="1. hook弹窗"></a>1. hook弹窗</h4><p>下载算法助手，在lsp中对目标软件勾选作用域。</p>
+<p>打开算法助手，勾选目标软件和屏蔽关键词弹窗并输入弹窗的内容。重启软件后，广告被成功拦截。</p>
+<h4 id="2-修改dex弹窗代码"><a href="#2-修改dex弹窗代码" class="headerlink" title="2. 修改dex弹窗代码"></a>2. 修改dex弹窗代码</h4><p>在日志中，可以找到软件调用的堆栈的记录，注意到其中的<code>com.zj.wuaipojie.ui.ChallengeThird.onCreate</code>方法，在dex中搜索这个方法。</p>
+<p>点进匹配度最高的方法，阅读smali代码后可以发现，这里就是运行弹窗广告的地方。</p>
+<p>由于是弹窗广告，最后一定会调用<code>show()</code>方法进行展示，我们可以直接注释相关语句来关闭弹窗。</p>
+<p>注释后，两个弹窗广告都成功去除。</p>
+<h4 id="3-抓包修改响应体"><a href="#3-抓包修改响应体" class="headerlink" title="3. 抓包修改响应体"></a>3. 抓包修改响应体</h4><p>该内容会在后面的抓包教学中讲解。</p>
+<h2 id="5-横幅广告"><a href="#5-横幅广告" class="headerlink" title="5. 横幅广告"></a>5. 横幅广告</h2><p>最后还有一个横幅广告。</p>
+<p>打开开发助手，选择布局查看功能，点击广告图片，找到其id，比如此处的广告图片id为<code>0x7f0801ca</code>。</p>
+<p>查看安装包，右上角选择xml搜索，将刚才的id复制进去，选择资源id，即可找到对应的xml文件，在其中搜索刚刚的id(注意将0x删除)，即可找到图片的布局信息。</p>
+<p>这里有两种改法:</p>
+<ol>
+<li>将图片的高度和宽度都改为0</li>
+<li>添加代码:<code>android:visibility=&quot;gone&quot;</code></li>
+</ol>
+<p>至此，我们成功去除了所有广告</p>
+<h2 id="5-总结"><a href="#5-总结" class="headerlink" title="5. 总结"></a>5. 总结</h2><p>本次学习了如何去除广告弹窗。个人认为难点在于准确定位到具体的加载广告的位置并加以修改，而不是盲目的删除代码。这需要更多的实战经验。</p>
+<h2 id="6-引用"><a href="#6-引用" class="headerlink" title="6. 引用"></a>6. 引用</h2><p><a href="https://github.com/ZJ595/AndroidReverse?tab=readme-ov-file">https://github.com/ZJ595/AndroidReverse?tab=readme-ov-file</a></p>
+]]></content>
+      <categories>
+        <category>安卓逆向</category>
+      </categories>
+      <tags>
+        <tag>安卓</tag>
+        <tag>逆向</tag>
+      </tags>
+  </entry>
 </search>
